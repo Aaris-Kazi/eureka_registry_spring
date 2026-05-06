@@ -9,6 +9,26 @@ pipeline {
 
     stages {
 
+        stage('Clean Workspace') {
+            steps {
+                deleteDir()
+            }
+        }
+
+        stage('Checkout Code') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/Aaris-Kazi/eureka_registry_spring.git'
+            }
+        }
+
+        stage('Debug') {
+            steps {
+                sh 'ls -la'
+                sh 'find . -name pom.xml'
+            }
+        }
+
         stage('Build JAR') {
             steps {
                 sh 'mvn clean package'

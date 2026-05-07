@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         IMAGE_NAME = "aariskazi/eureka-server"
-        CONTAINER_NAME = "eureka-container"
+        CONTAINER_NAME = "eureka-server"
         PORT = "8761"
     }
 
@@ -52,7 +52,6 @@ pipeline {
             steps {
                 sh '''
                 docker run -d \
-                --env-file .env \
                 -p $PORT:8761 \
                 --name $CONTAINER_NAME \
                 $IMAGE_NAME

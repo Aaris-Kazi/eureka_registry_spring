@@ -5,6 +5,7 @@ pipeline {
         IMAGE_NAME = "aariskazi/eureka-server"
         CONTAINER_NAME = "eureka-server"
         PORT = "8761"
+        IMAGE_TAG = "v${BUILD_NUMBER}"
     }
 
     stages {
@@ -37,7 +38,10 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t $IMAGE_NAME .'
+                sh '''
+                docker build -t ${IMAGE_NAME}:${IMAGE_TAG} .
+                docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${IMAGE_NAME}:latest
+                '''
             }
         }
 
@@ -54,7 +58,7 @@ pipeline {
                 docker run -d \
                 -p $PORT:8761 \
                 --name $CONTAINER_NAME \
-                $IMAGE_NAME
+                $IMAGE_NAME:$IMAGE_TAG
                 '''
             }
         }
